@@ -13,5 +13,5 @@ interface BookServiceInterface
         ?string $summary
     ): Book;
 
-    public function get(string $isbn): Book;
+    public function get(string $isbn): Book | null;
 }

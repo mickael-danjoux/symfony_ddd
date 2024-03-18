@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/books/{isbn}', name: 'api_books_get_one', methods: [Request::METHOD_GET])]
@@ -20,8 +21,10 @@ class GetOneBookApiController extends AbstractApiController
         BookService $bookService
     ): JsonResponse {
         $book = $bookService->get($isbn);
+        if(!$book){
+            throw new NotFoundHttpException();
+        }
         return new JsonResponse(ReadBookResponseDto::createFromDomain($book), Response::HTTP_CREATED);
-
     }
 
 }
