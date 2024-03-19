@@ -2,13 +2,15 @@
 
 namespace App\Domain\Models\Book;
 
+use App\Domain\Exception\InvalidIsbnException;
+
 class Book
 {
     /**
      * ISBN – International Standard Book Number
-     * @var string
+     * @var Isbn
      */
-    private string $isbn;
+    private Isbn $isbn;
 
     private string $title;
 
@@ -16,12 +18,16 @@ class Book
 
     /**
      * @param string $isbn
+     * @throws InvalidIsbnException
      */
     public function __construct(string $isbn)
     {
-        $this->isbn = strtoupper($isbn);
+        $this->isbn = new Isbn($isbn);
     }
 
+    /**
+     * @throws InvalidIsbnException
+     */
     public static function create(string $isbn, string $title, ?string $summary = null): static
     {
         return (new self($isbn))

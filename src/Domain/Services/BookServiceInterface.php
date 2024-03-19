@@ -17,7 +17,7 @@ interface BookServiceInterface
 
     public function get(string $isbn): Book|null;
 
-    public function getAll(PaginationRequest $paginationContext): PaginationResponse;
+    public function getAll(?PaginationRequest $paginationContext = new PaginationRequest()): PaginationResponse;
 
     public function remove(Book $book): void;
 }

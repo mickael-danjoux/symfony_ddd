@@ -26,14 +26,14 @@ class BookService implements BookServiceInterface
     ): Book {
         $searchBook = $this->get($isbn);
         if ($searchBook instanceof Book) {
-            throw new IsbnAlreadyExistsException("Isbn '" . strtoupper($isbn) . "' already exists.");
+            throw new IsbnAlreadyExistsException("Isbn '" . $isbn . "' already exists.");
         }
         return $this->repository->add(Book::create($isbn, $title, $summary));
     }
 
     public function get(string $isbn): Book|null
     {
-        return $this->repository->findOneByIsbn(strtoupper($isbn));
+        return $this->repository->findOneByIsbn($isbn);
     }
 
     public function remove(Book $book): void
@@ -41,7 +41,7 @@ class BookService implements BookServiceInterface
         $this->repository->remove($book);
     }
 
-    public function getAll(PaginationRequest $paginationContext): PaginationResponse
+    public function getAll(?PaginationRequest $paginationContext = new PaginationRequest()): PaginationResponse
     {
         return $this->repository->findAllPaginated($paginationContext);
     }

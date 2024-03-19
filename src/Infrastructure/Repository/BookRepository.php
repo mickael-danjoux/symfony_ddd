@@ -56,9 +56,9 @@ class BookRepository extends ServiceEntityRepository implements BookRepositoryIn
     public function findAllPaginated(PaginationRequest $paginationContext): PaginationResponse
     {
         return $this->paginatorResponseFactory->build(
-            $paginationContext,
             $this->createQueryBuilder('b')->getQuery(),
-            fn($dbBook) => Book::getDomainHydratation($dbBook)
+            fn($dbBook) => Book::getDomainHydratation($dbBook),
+            $paginationContext,
         );
     }
 }

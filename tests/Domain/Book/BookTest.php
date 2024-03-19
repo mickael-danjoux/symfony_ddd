@@ -5,6 +5,8 @@ namespace App\Tests\Domain\Book;
 use App\Domain\Exception\IsbnAlreadyExistsException;
 use App\Domain\Models\Book\Book;
 use App\Domain\Models\Book\BookRepositoryInterface;
+use App\Domain\Models\Pagination\PaginationRequest;
+use App\Domain\Models\Pagination\PaginationResponse;
 use App\Domain\Services\BookService;
 use App\Infrastructure\Entity\Book as BookDb;
 use App\Infrastructure\Tests\Factory\BookFactory;
@@ -13,20 +15,26 @@ use Zenstruck\Foundry\Test\Factories;
 
 class BookTest extends TestCase
 {
-    CONST NB_BOOKS = 5;
+    const NB_BOOKS = 5;
 
     use Factories;
 
     protected BookService $bookService;
 
+    /**
+     * @throws IsbnAlreadyExistsException
+     */
     public function testAddBook()
     {
         $book = $this->addBook();
         self::assertInstanceOf(Book::class, $book);
         $books = $this->bookService->getAll();
-        $this->assertCount(BookTest::NB_BOOKS + 1, $books);
+        $this->assertCount(BookTest::NB_BOOKS + 1, $books->items);
     }
 
+    /**
+     * @throws IsbnAlreadyExistsException
+     */
     private function addBook(): Book
     {
         return $this->bookService->add(
@@ -39,9 +47,12 @@ class BookTest extends TestCase
     public function testGetAll()
     {
         $books = $this->bookService->getAll();
-        $this->assertCount(BookTest::NB_BOOKS, $books);
+        $this->assertCount(BookTest::NB_BOOKS, $books->items);
     }
 
+    /**
+     * @throws IsbnAlreadyExistsException
+     */
     public function testGetBook()
     {
         $addedBook = $this->addBook();
@@ -49,6 +60,9 @@ class BookTest extends TestCase
         self::assertInstanceOf(Book::class, $book);
     }
 
+    /**
+     * @throws IsbnAlreadyExistsException
+     */
     public function testRemoveBook()
     {
         $addedBook = $this->addBook();
@@ -57,6 +71,9 @@ class BookTest extends TestCase
         self::assertNull($book);
     }
 
+    /**
+     * @throws IsbnAlreadyExistsException
+     */
     public function testAddSameIsbn()
     {
         $firstBook = $this->addBook();
@@ -115,13 +132,15 @@ class BookTest extends TestCase
                 }
             }
 
-            public function findAllPaginated(): array
+            public function findAllPaginated(PaginationRequest $paginationContext): PaginationResponse
             {
                 $result = [];
                 foreach ($this->books as $b) {
                     $result[] = BookDb::getDomainHydratation($b);
                 }
-                return $result;
+                $response = new PaginationResponse();
+                $response->items = $result;
+                return $response;
             }
         };
 

@@ -13,16 +13,14 @@ class PaginatorResponseFactory
     public function __construct(
         private readonly PaginatorInterface $paginator
 
-    )
-    {
+    ) {
     }
 
     public function build(
-        PaginationRequest $paginationContext,
         Query $query,
-        callable $itemDomainMapper
-    ):  PaginationResponse
-    {
+        callable $itemDomainMapper,
+        ?PaginationRequest $paginationContext = new PaginationRequest(),
+    ): PaginationResponse {
         $pagination = $this->paginator->paginate(
             $query,
             $paginationContext->page,
