@@ -15,5 +15,10 @@ interface BookServiceInterface
 
     public function get(string $isbn): Book|null;
 
+    /**
+     * @return Book[]
+     */
+    public function getAll(): array;
+
     public function remove(Book $book): void;
 }

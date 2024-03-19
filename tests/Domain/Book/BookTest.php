@@ -13,6 +13,8 @@ use Zenstruck\Foundry\Test\Factories;
 
 class BookTest extends TestCase
 {
+    CONST NB_BOOKS = 5;
+
     use Factories;
 
     protected BookService $bookService;
@@ -21,6 +23,8 @@ class BookTest extends TestCase
     {
         $book = $this->addBook();
         self::assertInstanceOf(Book::class, $book);
+        $books = $this->bookService->getAll();
+        $this->assertCount(BookTest::NB_BOOKS + 1, $books);
     }
 
     private function addBook(): Book
@@ -30,6 +34,12 @@ class BookTest extends TestCase
             BookFactory::faker()->text(16),
             BookFactory::faker()->sentence(16)
         );
+    }
+
+    public function testGetAll()
+    {
+        $books = $this->bookService->getAll();
+        $this->assertCount(BookTest::NB_BOOKS, $books);
     }
 
     public function testGetBook()
@@ -69,7 +79,7 @@ class BookTest extends TestCase
 
             public function __construct()
             {
-                for ($i = 1; $i <= 5; $i++) {
+                for ($i = 1; $i <= BookTest::NB_BOOKS; $i++) {
                     $this->books[] = BookFactory::new()->withoutPersisting()->create()->object();
                 }
             }
@@ -105,6 +115,14 @@ class BookTest extends TestCase
                 }
             }
 
+            public function findAll(): array
+            {
+                $result = [];
+                foreach ($this->books as $b) {
+                    $result[] = BookDb::getDomainHydratation($b);
+                }
+                return $result;
+            }
         };
 
         $this->bookService = new BookService($bookRepo);

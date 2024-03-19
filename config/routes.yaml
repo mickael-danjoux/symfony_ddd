@@ -5,3 +5,9 @@ api_controllers:
     prefix: /api
     type: attribute
 
+web_controllers:
+    resource:
+        path: ../src/Application/Controller/Web
+        namespace: App\Application\Controller\Web
+    type: attribute
+

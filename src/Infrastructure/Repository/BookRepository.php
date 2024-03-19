@@ -13,7 +13,6 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @method Book|null find($id, $lockMode = null, $lockVersion = null)
  * @method Book|null findOneBy(array $criteria, array $orderBy = null)
- * @method Book[]    findAll()
  * @method Book[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class BookRepository extends ServiceEntityRepository implements BookRepositoryInterface
@@ -45,5 +44,18 @@ class BookRepository extends ServiceEntityRepository implements BookRepositoryIn
         return $book ?
             Book::getDomainHydratation($book) :
             null;
+    }
+
+    /**
+     * @return BookDomain[]
+     */
+    public function findAll(): array
+    {
+        $books = $this->findBy([]);
+        $result = [];
+        foreach ($books as $b) {
+            $result[] = Book::getDomainHydratation($b);
+        }
+        return $result;
     }
 }

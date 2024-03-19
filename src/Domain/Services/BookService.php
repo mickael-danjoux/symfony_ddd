@@ -38,4 +38,9 @@ class BookService implements BookServiceInterface
     {
         $this->repository->remove($book);
     }
+
+    public function getAll(): array
+    {
+        return $this->repository->findAll();
+    }
 }

@@ -10,4 +10,9 @@ interface BookRepositoryInterface
 
     public function remove(Book $bookDomain): void;
 
+    /**
+     * @return Book[]
+     */
+    public function findAll(): array;
+
 }

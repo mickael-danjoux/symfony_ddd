@@ -13,18 +13,19 @@ use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/books/{isbn}', name: 'api_books_get_one', methods: [Request::METHOD_GET])]
-class GetOneBookApiController extends AbstractApiController
+#[Route('/books', name: 'api_books_get_all', methods: [Request::METHOD_GET])]
+class GetAllBookApiController extends AbstractApiController
 {
     public function __invoke(
-        string $isbn,
         BookService $bookService
     ): JsonResponse {
-        $book = $bookService->get($isbn);
-        if(!$book){
-            throw new NotFoundHttpException();
+        $books = $bookService->getAll();
+        $result = [];
+        foreach ($books as $b) {
+            $result[] = ReadBookResponseDto::createFromDomain($b);
         }
-        return new JsonResponse(ReadBookResponseDto::createFromDomain($book), Response::HTTP_OK);
+
+        return new JsonResponse($result, Response::HTTP_OK);
     }
 
 }
