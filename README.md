@@ -1,6 +1,6 @@
 # Simplified approach of DDD concept with symfony
 
-This project is a simplified approach of DDD structure.
+This project is a simplified approach of DDD structure using Symfony.
 
 ## Structure
 
@@ -12,13 +12,13 @@ This project is a simplified approach of DDD structure.
 - No dependency injections
 - No Framework dependencies
 
-### Infrastructure
+### Infrastructure layer
 - All symfony framework
 - Persisted entities
 - ORM
 - Can communicate with Application layer
 
-### Application
+### Application layer
 - Controllers and views
 - DTOs to manage input and output data in domain
 - Can communicate with Domain and Infrastructure layer

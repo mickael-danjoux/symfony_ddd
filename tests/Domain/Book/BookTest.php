@@ -2,6 +2,7 @@
 
 namespace App\Tests\Domain\Book;
 
+use App\Domain\Exception\InvalidIsbnException;
 use App\Domain\Exception\IsbnAlreadyExistsException;
 use App\Domain\Models\Book\Book;
 use App\Domain\Models\Book\BookRepositoryInterface;
@@ -10,6 +11,7 @@ use App\Domain\Models\Pagination\PaginationResponse;
 use App\Domain\Services\BookService;
 use App\Infrastructure\Entity\Book as BookDb;
 use App\Infrastructure\Tests\Factory\BookFactory;
+use PHPUnit\Framework\IncompleteTestError;
 use PHPUnit\Framework\TestCase;
 use Zenstruck\Foundry\Test\Factories;
 
@@ -60,6 +62,22 @@ class BookTest extends TestCase
         self::assertInstanceOf(Book::class, $book);
     }
 
+    public function testIsbn()
+    {
+        try {
+            $this->bookService->add(
+                'WrongISBN-123',
+                BookFactory::faker()->text(16),
+                BookFactory::faker()->sentence(16)
+            );
+            // Never thrown if test is ok
+            throw new IncompleteTestError();
+        } catch (\Exception $e) {
+            $this->assertInstanceOf(InvalidIsbnException::class, $e);
+        }
+
+    }
+
     /**
      * @throws IsbnAlreadyExistsException
      */
@@ -84,6 +102,8 @@ class BookTest extends TestCase
                 BookFactory::faker()->text(16),
                 BookFactory::faker()->sentence(16)
             );
+            // Never thrown if test is ok
+            throw new IncompleteTestError();
         } catch (\Exception $e) {
             self::assertInstanceOf(IsbnAlreadyExistsException::class, $e);
         }
