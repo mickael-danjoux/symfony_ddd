@@ -25,7 +25,7 @@ class BookRepository extends ServiceEntityRepository implements BookRepositoryIn
 
     public function add(BookDomain $bookDomain): BookDomain
     {
-        $book = Book::createFormDomain($bookDomain);
+        $book = Book::createFromDomain($bookDomain);
         $this->getEntityManager()->persist($book);
         $this->getEntityManager()->flush();
 

@@ -9,7 +9,6 @@ use App\Domain\Models\Book\BookRepositoryInterface;
 class BookService implements BookServiceInterface
 {
 
-
     public function __construct(
         private readonly BookRepositoryInterface $repository
     ) {
@@ -33,5 +32,10 @@ class BookService implements BookServiceInterface
     public function get(string $isbn): Book|null
     {
         return $this->repository->findOneByIsbn(strtoupper($isbn));
+    }
+
+    public function remove(Book $book): void
+    {
+        $this->repository->remove($book);
     }
 }

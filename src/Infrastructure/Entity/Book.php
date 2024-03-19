@@ -28,7 +28,7 @@ class Book
         $this->isbn = $isbn;
     }
 
-    static function createFormDomain(BookDomain $bookDomain ): static {
+    static function createFromDomain(BookDomain $bookDomain ): static {
         return (new self($bookDomain->getIsbn()))
             ->setTitle($bookDomain->getTitle())
             ->setSummary($bookDomain->getSummary());

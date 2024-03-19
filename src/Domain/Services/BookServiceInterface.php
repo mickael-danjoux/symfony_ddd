@@ -13,5 +13,7 @@ interface BookServiceInterface
         ?string $summary
     ): Book;
 
-    public function get(string $isbn): Book | null;
+    public function get(string $isbn): Book|null;
+
+    public function remove(Book $book): void;
 }
