@@ -2,6 +2,9 @@
 
 namespace App\Domain\Models\Book;
 
+use App\Domain\Models\Pagination\PaginationRequest;
+use App\Domain\Models\Pagination\PaginationResponse;
+
 interface BookRepositoryInterface
 {
     public function findOneByIsbn(string $isbn): Book|null;
@@ -10,9 +13,6 @@ interface BookRepositoryInterface
 
     public function remove(Book $bookDomain): void;
 
-    /**
-     * @return Book[]
-     */
-    public function findAll(): array;
+    public function findAllPaginated(PaginationRequest $paginationContext): PaginationResponse;
 
 }

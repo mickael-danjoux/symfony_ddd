@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DataFixtures;
+namespace App\Infrastructure\DataFixtures;
 
 use App\Infrastructure\Tests\Factory\BookFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;

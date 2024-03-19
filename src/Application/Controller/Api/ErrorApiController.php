@@ -4,6 +4,7 @@ namespace App\Application\Controller\Api;
 
 use App\Domain\Exception\DomainException;
 use Psr\Log\LoggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -11,7 +12,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Throwable;
 
-class ErrorApiController extends AbstractApiController
+class ErrorApiController extends AbstractController
 {
     public function __invoke(Throwable $exception, LoggerInterface $logger): JsonResponse
     {

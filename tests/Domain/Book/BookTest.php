@@ -115,7 +115,7 @@ class BookTest extends TestCase
                 }
             }
 
-            public function findAll(): array
+            public function findAllPaginated(): array
             {
                 $result = [];
                 foreach ($this->books as $b) {

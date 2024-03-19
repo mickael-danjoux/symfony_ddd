@@ -5,6 +5,8 @@ namespace App\Domain\Services;
 use App\Domain\Exception\IsbnAlreadyExistsException;
 use App\Domain\Models\Book\Book;
 use App\Domain\Models\Book\BookRepositoryInterface;
+use App\Domain\Models\Pagination\PaginationRequest;
+use App\Domain\Models\Pagination\PaginationResponse;
 
 class BookService implements BookServiceInterface
 {
@@ -39,8 +41,8 @@ class BookService implements BookServiceInterface
         $this->repository->remove($book);
     }
 
-    public function getAll(): array
+    public function getAll(PaginationRequest $paginationContext): PaginationResponse
     {
-        return $this->repository->findAll();
+        return $this->repository->findAllPaginated($paginationContext);
     }
 }
