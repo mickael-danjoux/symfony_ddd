@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>List</h1>
+        <a href="{{ path('app_book_list') }}" class="btn btn-secondary">Back</a>
+    </div>
+    {{ form_start(form) }}
+    {{ form_errors(form) }}
+    {{ form_rest(form) }}
+    <button class="btn btn-primary">add</button>
+    {{ form_end(form) }}
+
+{% endblock %}
+
